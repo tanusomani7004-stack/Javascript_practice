@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Promise Example</title>
+</head>
+
+<body>
+
+<h3>Promise Example</h3>
+
+<input type="number" id="num" placeholder="Enter a number" required>
+<button onclick="checkValue()">Check</button>
+
+<p id="result"></p>
+
+<script>
+    function numberCheck(num){
+
+return new Promise((resolve,reject)=>{
+
+if(num > 10){
+resolve("Success: Number is greater than 10");
+}
+else{
+reject("Error: Number must be greater than 10");
+}
+
+});
+
+}
+
+function checkValue(){
+
+let value = document.getElementById("num").value;
+
+numberCheck(value)
+
+.then(function(message){
+document.getElementById("result").innerText = message;
+})
+
+.catch(function(error){
+document.getElementById("result").innerText = error;
+})
+
+.finally(function(){
+console.log("Operation Completed");
+});
+
+}
+</script>
+
+</body>
+</html> 
+
+

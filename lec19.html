@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>generator and </title>
+</head>
+<body>
+    <script>
+    //"""generator function"""
+        // function* trafficlight(){  // * means generator function
+
+        //     yield "red"
+
+        //     yield "yellow"
+
+        //     yield "green"
+        // }
+
+        // let a = trafficlight();
+
+
+        // a.next()
+        // console.log(a.next().value)
+        // a.next()
+        // console.log(a.next().done)
+
+        // console.log(a.next())
+        // console.log(a.next())
+        // console.log(a.next())
+        // console.log(a.next())
+
+
+        //"""colling"""
+
+        // returns a function until all parameter is not done
+
+        // function totalMarks(maths,english,hindi){
+        //     return maths+english+hindi
+        // }
+
+        // let marks = totalMarks(50,60)
+        // console.log(marks)
+        function totalMarks(maths){
+            return function (english) {
+                return function (hindi) {
+                    return maths+hindi+english
+                }
+                
+            }
+        }
+
+        let maths = totalMarks(50);
+        let english= maths(60);
+        let hindi = english(70);
+        console.log(maths)
+        console.log(english)
+        console.log(hindi)
+    </script>
+</body>
+</html>

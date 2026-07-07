@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API</title>
+    <style>
+
+        body{
+            display:flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+
+        .container{
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border: 1px solid rgb(163, 145, 145);
+        }
+        img{
+            width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        async function getproducts() {     // site is dummyjson
+            let response= await fetch('https://dummyjson.com/products')     //send the data from the backhand and accept the data from the backhand   api stands for aplication programming interface
+            let data = await response.json()
+            let elements = data.products
+            let body = document.querySelector('body')
+            elements.forEach((item,index)=>{
+
+                let card = document.createElement('div')
+
+                card.innerHTML = `<img src = ${item.images[0]} alt=${item.title}/>
+                                    <h3>${item.title}</h3>`
+                                        card.classList.add('container')
+                body.append(card)
+                // console.log(item,index)
+                // console.log(item.availabilityStatus)
+                // console.log(item.category)
+                // console.log(item.dimension.height)
+            })
+            // console.log(data.skip)
+            // console.log(data.limit)
+            // console.log(data.products)
+
+        }
+        getproducts()
+
+
+        //  async function getcarts() {     
+        //     let response= await fetch('https://dummyjson.com/carts')  
+        //     console.log(response) 
+        //     let data = await response.json() 
+        //     let elements = data.carts
+        //     elements.forEach((item,index)=>{
+        //         console.log(item,index)
+                
+        //         console.log(item.category)
+                
+        //     })
+            
+
+        // }
+        // getcarts()
+
+
+
+        // async function getrecipes() {     
+        //     let response= await fetch('https://dummyjson.com/recipes')  
+        //     console.log(response) 
+        //     let data = await response.json() 
+        //     let elements = data.recipes
+        //     elements.forEach((item,index)=>{
+        //         console.log(item,index)
+                
+        //         console.log(item.category)
+                
+        //     })
+            
+
+        // }
+        // getrecipes()
+                  
+    </script>
+</body>
+</html>

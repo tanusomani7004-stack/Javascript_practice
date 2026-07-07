@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promises or asing awake </title>
+</head>
+<body>
+    <script>
+          let cart =["laptop","mobile","earphones","adaptor"]
+        function createorder(cart){
+            console.log("Creating order.......")
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    if(cart.length>0){
+                        resolve({
+                            orderId:12345,
+                            amount:500000
+                        })
+                    }else{
+                        reject("cart is empty")
+                    }
+                },5000)
+            })
+
+        }
+
+        function makepayment(order){
+            console.log("Initializing Payment....")
+            return new Promise((resolve,reject)=>{
+                let network = false;
+                setTimeout(()=>{
+                    if(network===true){
+                        resolve({
+                            ...order,     // spread operator=...    it adds above imformation
+                            paymentid:"PAY123"
+                        })
+                    }else{
+                        reject("payment failed")
+                    }
+                },5000)
+            })
+        }
+
+        function updateInventory(order){
+            console.log("updating inventory...")
+            return new Promise((resolve,reject)=>{
+                let inventoryAvailable = true;
+                setTimeout(() => {
+                    if(inventoryAvailable){
+                        resolve({
+                            ...order,
+                            inventoryStatus:true
+                        })
+                    }else{
+                        reject("inventory not available")
+                    }
+                }, 5000);
+            })
+        }
+
+        function orderstatus(order){
+            console.log("Confirming order.....")
+            return new Promise((resolve, reject) => {
+                let message = true;
+                setTimeout(() => {
+                    if(message){
+                        resolve({
+                            ...order,
+                            orderstatuskey:"confirmed"
+                        })
+                    }else{
+                        reject("order cancelled")
+                    }
+                }, 5000);
+            })
+
+        }
+
+// promise chaining 
+        // createorder(cart).then((order)=>{
+        //     console.log("order created for:",order)
+        //     return makepayment(order)
+        // }).then((order)=>{
+        //     console.log("payment successfull",order)
+        //     return updateInventory(order)
+        // }).then((order)=>{
+        //     console.log("update inventory",order)
+        //     return orderstatus(order)
+        // }).then((order)=>{
+        //     console.log(order)
+        // }).catch(err=>console.log(err))
+//try catch
+async function  ecommerce(){
+    // try{
+    // let order1 = await createorder(cart)
+    // console.log("order created:",order1)
+    // let order2 = await makepayment(order1)
+    // console.log("payment for:",order2)
+    // let order3 = await updateInventory(order2)
+    // console.log("update inventory for:",order3)
+    // let order4 = await orderstatus(order3)
+    // console.log("Final order",order4)
+    // }
+
+    try{
+        await createorder(cart)
+        await makepayment(createorder)
+        await updateInventory(makepayment)
+        await orderstatus(updateInventory)
+        
+    }
+    
+    catch(error){
+        console.log("error is",error)
+
+    }
+}
+   
+    ecommerce()
+    </script>
+</body>
+</html>

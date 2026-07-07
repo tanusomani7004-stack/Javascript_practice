@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+<body>
+    <script>
+        // let flag = true;    // agr false hua toh reject wala print hoga or agr true hua toh resolve wala print hoga 
+
+        // let wada = new Promise((resolve,reject)=>{
+        //     if (flag===false){
+        //         resolve("pura hua tera wada ")
+        //     }else{
+        //         reject("kya hua tera wada ")
+        //     }
+        // })
+
+        // console.log(wada)
+        // // resolve lo handle krne ke liye .then func hota h or reject ko handle krne ke liyge .catch
+        // wada.then(result=>console.log(result)).catch(error=>console.log(error)).finally(res=>console.log(res))
+
+        // let time=5;
+        // let rest = new Promise((resolve,reject)=>{
+        //     if (time <=10 && time>=1){
+        //         resolve("restaurant is open")
+        //     }else{
+        //         reject("restaurant is close")
+        //     }
+        // })
+        // rest.then(result=>console.log(result)).catch(error=>console.log(error))
+
+        
+        // let arry = ["laptop","mobile","T.V","frodge","LCD","Tab"];
+        // let abc = prompt("enter choice ")
+        // let value = new Promise((resolve,reject)=>{
+        //     if (arry.includes(abc)){
+        //         resolve("item in list ")
+        //     }else{
+        //         reject("out of stock")
+        //     }
+        // })
+        
+        // value.then(result=>console.log(result)).catch(error=>console.log(error))
+
+        // //promise chaining
+        // function homework(){
+        //     return new Promise((resolve,reject)=>{
+        //         let didhomework = true;
+        //         setTimeout(() => {
+        //             if(didhomework){
+        //                 resolve("homework done")
+        //             }else{
+        //                 reject("homework incomplete")
+        //             }
+                    
+        //         }, 5000);
+        //     })
+        // }
+
+        // // let temp = homework()
+        // // console.log(temp)
+
+        // homework().then(result=>console.log(result)).catch(error=>console.log(error))
+
+        // function marks(){
+        //     return new Promise((resolve,reject)=>{
+        //         let mark = 21;
+        //         setTimeout(() => {
+        //             if(mark>=33 && mark>=0){
+        //                 resolve("you are pass ")
+        //             }else{
+        //                 reject("you are fail")
+        //             }
+        //         }, 5000);
+        //     })
+        // }
+        // marks().then(result=>console.log(result)).catch(error=>console.log(error))
+
+        // promise chaining
+        let cart =["laptop","mobile","earphones","adaptor"]
+        function createorder(cart){
+            console.log("Creating order.......")
+            return new Promise((resolve,reject)=>{
+                setTimeout(()=>{
+                    if(cart.length>0){
+                        resolve({
+                            orderId:12345,
+                            amount:500000
+                        })
+                    }else{
+                        reject("cart is empty")
+                    }
+                },5000)
+            })
+
+        }
+
+        function makepayment(order){
+            console.log("Initializing Payment....")
+            return new Promise((resolve,reject)=>{
+                let network = true;
+                setTimeout(()=>{
+                    if(network===true){
+                        resolve({
+                            ...order,     // spread operator=...
+                            paymentid:"PAY123"
+                        })
+                    }else{
+                        reject("payment failed")
+                    }
+                },5000)
+            })
+        }
+
+        function updateInventory(order){
+            console.log("updating inventory...")
+            return new Promise((resolve,reject)=>{
+                let inventoryAvailable = true;
+                setTimeout(() => {
+                    if(inventoryAvailable){
+                        resolve({
+                            ...order,
+                            inventoryStatus:true
+                        })
+                    }else{
+                        reject("inventory not available")
+                    }
+                }, 5000);
+            })
+        }
+
+        function orderstatus(order){
+            console.log("Confirming order.....")
+            return new Promise((resolve, reject) => {
+                let message = true;
+                setTimeout(() => {
+                    if(message){
+                        resolve({
+                            ...order,
+                            orderstatuskey:"confirmed"
+                        })
+                    }else{
+                        reject("order cancelled")
+                    }
+                }, 5000);
+            })
+
+        }
+
+
+        createorder(cart).then((order)=>{
+            console.log("order created for:",order)
+            return makepayment(order)
+        }).then((order)=>{
+            console.log("payment successfull",order)
+            return updateInventory(order)
+        }).then((order)=>{
+            console.log("update inventory",order)
+            return orderstatus(order)
+        }).then((order)=>{
+            console.log(order)
+        }).catch(err=>console.log(err))
+    </script>
+</body>
+</html>
